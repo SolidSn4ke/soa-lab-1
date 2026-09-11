@@ -1,0 +1,595 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "SOA lab 1",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://localhost:42700/api",
+            "description": "Helios"
+        }
+    ],
+    "paths": {
+        "/labworks": {
+            "get": {
+                "summary": "Получить список элементов коллекции LabWork",
+                "description": "Получить список элементов коллекции LabWork c пагинацией, сортировкой и фильтрацией",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Номер страницы",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 0,
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Количество элементов на странице",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 1,
+                            "default": 20
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Список полей для сортировки в формате 'field,asc|desc'",
+                        "required": false,
+                        "style": "form",
+                        "explode": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "example": "name,asc"
+                            }
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Фильтр по полю name",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "minimalPoint",
+                        "in": "query",
+                        "description": "Фильтр по полю minimalPoint",
+                        "required": false,
+                        "schema": {
+                            "type": "number",
+                            "format": "float",
+                            "minimum": 0,
+                            "exclusiveMinimum": true
+                        }
+                    },
+                    {
+                        "name": "difficulty",
+                        "in": "query",
+                        "description": "Фильтр по полю difficulty",
+                        "required": false,
+                        "schema": {
+                            "$ref": "#/components/schemas/Difficulty"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/LabWork"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректные параметры запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Создать LabWork",
+                "description": "Создать в системе новую Лабораторную работу",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "coordinates": {
+                                        "$ref": "#/components/schemas/Coordinates"
+                                    },
+                                    "minimalPoint": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "averagePoint": {
+                                        "type": "number",
+                                        "format": "float"
+                                    },
+                                    "difficulty": {
+                                        "$ref": "#/components/schemas/Difficulty"
+                                    },
+                                    "discipline": {
+                                        "$ref": "#/components/schemas/Discipline"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/LabWork"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректное тело запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Конфликт",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/labworks/{id}": {
+            "get": {
+                "summary": "Получить элемент коллекции по ID",
+                "description": "Возвращает объект LabWork с указанным идентификатором.",
+                "operationId": "getLabWorkById",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное получение элемента",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LabWork"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректный идентификатор",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Элемент с указанным ID не найден",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            },
+            "put": {
+                "summary": "Обновить элемент коллекции",
+                "description": "Полностью заменяет существующий объект LabWork с указанным ID новыми данными. Поля id и creationDate игнорируются (генерируются автоматически).",
+                "operationId": "updateLabWork",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LabWork"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Элемент успешно обновлён",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LabWork"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректные данные запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Элемент с указанным ID не найден",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Конфликт",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Удалить элемент коллекции",
+                "description": "Удаляет объект LabWork с указанным ID.",
+                "operationId": "deleteLabWork",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Элемент успешно удалён"
+                    },
+                    "400": {
+                        "description": "Некорректный идентификатор",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Элемент с указанным ID не найден",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Конфликт",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/labworks/minimal-point": {
+            "get": {
+                "summary": "Рассчитать сумму значений поля minimalPoint",
+                "description": "Возвращает сумму значений поля minimalPoint для всех объектов коллекции",
+                "responses": {
+                    "200": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "number",
+                                    "format": "float"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/labworks/name": {
+            "get": {
+                "summary": "Вернуть массив объектов, name которых начинается с подстроки",
+                "description": "Возвращает массив объектов LabWork, значение поля name которых начинается с заданной подстроки",
+                "parameters": [
+                    {
+                        "name": "prefix",
+                        "in": "query",
+                        "required": true,
+                        "description": "Подстрока, с которой должно начинаться имя",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное получение массива",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/LabWork"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректные параметры запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/labworks/discipline-less-than": {
+            "get": {
+                "summary": "Вернуть массив объектов, значение поля discipline которых меньше заданного",
+                "description": "Возвращает массив объектов LabWork, у которых значение поля discipline (сравнение по name) лексикографически меньше заданного.",
+                "parameters": [
+                    {
+                        "name": "value",
+                        "in": "query",
+                        "required": true,
+                        "description": "Значение для сравнения",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное получение массива",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/LabWork"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректные параметры запроса"
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "LabWork": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "name",
+                    "coordinates",
+                    "creationDate",
+                    "minimalPoint",
+                    "discipline"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически",
+                        "minimum": 1,
+                        "readOnly": true
+                    },
+                    "name": {
+                        "type": "string",
+                        "description": "Поле не может быть null, Строка не может быть пустой",
+                        "minLength": 1
+                    },
+                    "coordinates": {
+                        "$ref": "#/components/schemas/Coordinates"
+                    },
+                    "creationDate": {
+                        "type": "string",
+                        "format": "date",
+                        "description": "Поле не может быть null, Значение этого поля должно генерироваться автоматически",
+                        "readOnly": true
+                    },
+                    "minimalPoint": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Поле не может быть null, Значение поля должно быть больше 0",
+                        "minimum": 0
+                    },
+                    "averagePoint": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Поле может быть null, Значение поля должно быть больше 0",
+                        "minimum": 0,
+                        "nullable": true
+                    },
+                    "difficulty": {
+                        "$ref": "#/components/schemas/Difficulty"
+                    },
+                    "discipline": {
+                        "$ref": "#/components/schemas/Discipline"
+                    }
+                }
+            },
+            "Coordinates": {
+                "type": "object",
+                "required": [
+                    "x",
+                    "y"
+                ],
+                "properties": {
+                    "x": {
+                        "type": "number",
+                        "format": "float",
+                        "description": "Значение поля должно быть больше -719, Поле не может быть null",
+                        "minimum": -719,
+                        "exclusiveMinimum": true
+                    },
+                    "y": {
+                        "type": "integer",
+                        "format": "int32",
+                        "description": "Поле не может быть null"
+                    }
+                }
+            },
+            "Discipline": {
+                "type": "object",
+                "required": [
+                    "name",
+                    "labsCount"
+                ],
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Поле не может быть null, Строка не может быть пустой",
+                        "minLength": 1
+                    },
+                    "labsCount": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Поле не может быть null"
+                    }
+                }
+            },
+            "Difficulty": {
+                "type": "string",
+                "enum": [
+                    "EASY",
+                    "HARD",
+                    "TERRIBLE"
+                ],
+                "nullable": true
+            },
+            "ErrorMsg": {
+                "type": "object",
+                "properties": {
+                    "msg": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
