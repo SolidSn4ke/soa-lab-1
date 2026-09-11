@@ -1,0 +1,134 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "SOA lab 1",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "https://localhost:42701/api",
+            "description": "Helios"
+        }
+    ],
+    "paths": {
+        "/bars/discipline/{discipline-id}/labwork/{labwork-id}/add": {
+            "post": {
+                "summary": "Добавить лабораторную работу в программу дисциплины",
+                "description": "Добавить лабораторную работу в программу дисциплины",
+                "parameters": [
+                    {
+                        "name": "discipline-id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1
+                        }
+                    },
+                    {
+                        "name": "labwork-id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное добавление лабораторной работы в программу дисциплины",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "./labwork-swagger.json#/components/schemas/LabWork"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректный идентификатор",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Элемент с указанным ID не найден",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "/bars/discipline/{discipline-id}/labwork/{labwork-id}/remove": {
+            "post": {
+                "summary": "Удалить лабораторную работу из программы дисциплины",
+                "description": "Удалить лабораторную работу из программы дисциплины",
+                "parameters": [
+                    {
+                        "name": "discipline-id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1
+                        }
+                    },
+                    {
+                        "name": "labwork-id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "Успешное удаление лабораторной работы из программы дисциплины"
+                    },
+                    "400": {
+                        "description": "Некорректный идентификатор",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Элемент с указанным ID не найден",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            }
+        }
+    }
+}
