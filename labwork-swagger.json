@@ -11,6 +11,149 @@
         }
     ],
     "paths": {
+        "/disciplines": {
+            "get": {
+                "summary": "Получить список элементов коллекции Dicipline",
+                "description": "Получить список элементов коллекции Dicipline c пагинацией, сортировкой и фильтрацией",
+                "parameters": [
+                    {}
+                ],
+                "responses": {
+                    "200": {
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "Некорректные параметры запроса",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
+        "disciplines/{id}": {
+            "get": {
+                "summary": "Получить элемент коллекции по ID",
+                "description": "Возвращает объект Discipline с указанным идентификатором.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное получение элемента",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "Некорректный идентификатор",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Элемент с указанным ID не найден",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Создать Discipline",
+                "description": "Создает объект коллекции Discipline",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное добавление элемента",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "Некорректные данные запроса",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Обновить элемент коллекции Discipline",
+                "description": "Обновление элемента коллекции Discilpline по указанному ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное обновление элемента",
+                        "content": {}
+                    },
+                    "400": {
+                        "description": "Некорректные данные запроса",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Некорректный идентификатор",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            },
+            "delete": {
+                "summary": "Удалить элемент коллекции Discipline",
+                "description": "Удаляет объект Discipline с указанным ID.",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное удаление элемента",
+                        "content": {}
+                    },
+                    "404": {
+                        "description": "Некорректный идентификатор",
+                        "content": {}
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            }
+        },
         "/labworks": {
             "get": {
                 "summary": "Получить список элементов коллекции LabWork",
