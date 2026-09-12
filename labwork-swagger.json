@@ -16,15 +16,149 @@
                 "summary": "Получить список элементов коллекции Dicipline",
                 "description": "Получить список элементов коллекции Dicipline c пагинацией, сортировкой и фильтрацией",
                 "parameters": [
-                    {}
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Номер страницы",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 0,
+                            "default": 0
+                        }
+                    },
+                    {
+                        "name": "size",
+                        "in": "query",
+                        "description": "Количество элементов на странице",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "minimum": 1,
+                            "default": 20
+                        }
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Список полей для сортировки в формате 'field,asc|desc;'",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "name,asc;labsCount,desc"
+                    },
+                    {
+                        "name": "search",
+                        "in": "query",
+                        "description": "Строка для построения фильтра. Для чисел разрешены фильтры: >, <, >=, <=, =; Для строк разрешены фильтры =, ~",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "name=abc;labsCount>3"
+                    }
                 ],
                 "responses": {
                     "200": {
-                        "content": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "page": {
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "minimum": 0,
+                                            "default": 0
+                                        },
+                                        "totalPages": {
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "minimum": 1
+                                        },
+                                        "size": {
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "minimum": 1,
+                                            "default": 20
+                                        },
+                                        "totalElements": {
+                                            "type": "integer",
+                                            "format": "int32",
+                                            "minimum": 1
+                                        },
+                                        "items": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Discipline"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Некорректные параметры запроса",
-                        "content": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            },
+            "post": {
+                "summary": "Создать Discipline",
+                "description": "Создает объект коллекции Discipline",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Discipline"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Успешное добавление элемента",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректные данные запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Некорректные данные запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
                     },
                     "500": {
                         "description": "Внутренняя ошибка сервера"
@@ -50,43 +184,33 @@
                 "responses": {
                     "200": {
                         "description": "Успешное получение элемента",
-                        "content": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Некорректный идентификатор",
-                        "content": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Элемент с указанным ID не найден",
-                        "content": {}
-                    },
-                    "500": {
-                        "description": "Внутренняя ошибка сервера"
-                    }
-                }
-            },
-            "post": {
-                "summary": "Создать Discipline",
-                "description": "Создает объект коллекции Discipline",
-                "parameters": [
-                    {
-                        "name": "id",
-                        "in": "path",
-                        "required": true,
-                        "schema": {
-                            "type": "string",
-                            "minLength": 1
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
                         }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Успешное добавление элемента",
-                        "content": {}
-                    },
-                    "400": {
-                        "description": "Некорректные данные запроса",
-                        "content": {}
                     },
                     "500": {
                         "description": "Внутренняя ошибка сервера"
@@ -160,15 +284,33 @@
                 "responses": {
                     "200": {
                         "description": "Успешное обновление элемента",
-                        "content": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
                     },
                     "400": {
                         "description": "Некорректные данные запроса",
-                        "content": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Некорректный идентификатор",
-                        "content": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
                     },
                     "500": {
                         "description": "Внутренняя ошибка сервера"
@@ -190,13 +332,18 @@
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Успешное удаление элемента",
-                        "content": {}
+                    "204": {
+                        "description": "Успешное удаление элемента"
                     },
                     "404": {
                         "description": "Некорректный идентификатор",
-                        "content": {}
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
                     },
                     "500": {
                         "description": "Внутренняя ошибка сервера"
