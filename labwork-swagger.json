@@ -93,6 +93,56 @@
                     }
                 }
             },
+            "put": {
+                "summary": "Полностью обновить элемент коллекции Discipline",
+                "description": "Полное обновление элемента коллекции Discilpline по указанному ID",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "minLength": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Успешное обновление элемента",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Discipline"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректные данные запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Некорректный идентификатор",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            },
             "patch": {
                 "summary": "Обновить элемент коллекции Discipline",
                 "description": "Обновление элемента коллекции Discilpline по указанному ID",
@@ -248,17 +298,20 @@
                                     },
                                     "minimalPoint": {
                                         "type": "number",
-                                        "format": "float"
+                                        "format": "float",
+                                        "example": 1
                                     },
                                     "averagePoint": {
                                         "type": "number",
-                                        "format": "float"
+                                        "format": "float",
+                                        "example": 1
                                     },
                                     "difficulty": {
                                         "$ref": "#/components/schemas/Difficulty"
                                     },
-                                    "discipline": {
-                                        "$ref": "#/components/schemas/Discipline"
+                                    "disciplineId": {
+                                        "type": "string",
+                                        "minLength": 1
                                     }
                                 }
                             }
@@ -560,17 +613,47 @@
                 }
             }
         },
-        "/labworks/minimal-point": {
+        "/labworks/op/sum": {
             "get": {
                 "summary": "Рассчитать сумму значений поля minimalPoint",
                 "description": "Возвращает сумму значений поля minimalPoint для всех объектов коллекции",
+                "parameters": [
+                    {
+                        "name": "field",
+                        "in": "query",
+                        "description": "Поле для расчета суммы.",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "minimalPoint"
+                            ]
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "number",
-                                    "format": "float"
+                                    "type": "object",
+                                    "properties": {
+                                        "res": {
+                                            "type": "number",
+                                            "format": "float"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректный запрос",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
                                 }
                             }
                         }
@@ -581,18 +664,31 @@
                 }
             }
         },
-        "/labworks/name": {
+        "/labworks/op/filter": {
             "get": {
-                "summary": "Вернуть массив объектов, name которых начинается с подстроки",
-                "description": "Возвращает массив объектов LabWork, значение поля name которых начинается с заданной подстроки",
+                "summary": "Вернуть массив объектов, name которых начинается с подстроки или значение поля discipline которых меньше заданного",
+                "description": "Возвращает массив объектов LabWork, значение поля name которых начинается с заданной подстроки или Вернуть массив объектов, значение поля discipline которых меньше заданного",
                 "parameters": [
                     {
-                        "name": "prefix",
+                        "name": "value",
                         "in": "query",
                         "required": true,
-                        "description": "Подстрока, с которой должно начинаться имя",
+                        "description": "Значение для фильтра",
                         "schema": {
                             "type": "string"
+                        }
+                    },
+                    {
+                        "name": "field",
+                        "in": "query",
+                        "required": true,
+                        "description": "Поле для фильтра",
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "name",
+                                "discipline"
+                            ]
                         }
                     }
                 ],
@@ -620,44 +716,6 @@
                                 }
                             }
                         }
-                    },
-                    "500": {
-                        "description": "Внутренняя ошибка сервера"
-                    }
-                }
-            }
-        },
-        "/labworks/discipline-less-than": {
-            "get": {
-                "summary": "Вернуть массив объектов, значение поля discipline которых меньше заданного",
-                "description": "Возвращает массив объектов LabWork, у которых значение поля discipline (сравнение по name) лексикографически меньше заданного.",
-                "parameters": [
-                    {
-                        "name": "value",
-                        "in": "query",
-                        "required": true,
-                        "description": "Значение для сравнения",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Успешное получение массива",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/LabWork"
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    "400": {
-                        "description": "Некорректные параметры запроса"
                     },
                     "500": {
                         "description": "Внутренняя ошибка сервера"
@@ -737,13 +795,15 @@
                         "type": "number",
                         "format": "float",
                         "description": "Поле не может быть null, Значение поля должно быть больше 0",
-                        "minimum": 0
+                        "minimum": 0,
+                        "exclusiveMinimum": true
                     },
                     "averagePoint": {
                         "type": "number",
                         "format": "float",
                         "description": "Поле может быть null, Значение поля должно быть больше 0",
                         "minimum": 0,
+                        "exclusiveMinimum": true,
                         "nullable": true
                     },
                     "difficulty": {
