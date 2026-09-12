@@ -77,7 +77,32 @@
                         }
                     },
                     "500": {
-                        "description": "Внутренняя ошибка сервера"
+                        "description": "Внутренняя ошибка сервера",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "An internal server error occurred while processing the request",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Сервис недоступен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "The service is temporarily unavailable",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -141,7 +166,32 @@
                         }
                     },
                     "500": {
-                        "description": "Внутренняя ошибка сервера"
+                        "description": "Внутренняя ошибка сервера",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "An internal server error occurred while processing the request",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
+                                }
+                            }
+                        }
+                    },
+                    "503": {
+                        "description": "Сервис недоступен",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "The service is temporarily unavailable",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
+                                }
+                            }
+                        }
                     }
                 }
             }
