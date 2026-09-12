@@ -107,6 +107,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'labsCount'. Expected: Long, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -146,16 +150,24 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter '' to field 'labsCount'. Expected: Long, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
                     },
                     "409": {
-                        "description": "Некорректные данные запроса",
+                        "description": "Конфликт",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Already exists",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -192,22 +204,16 @@
                             }
                         }
                     },
-                    "400": {
-                        "description": "Некорректный идентификатор",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/ErrorMsg"
-                                }
-                            }
-                        }
-                    },
                     "404": {
                         "description": "Элемент с указанным ID не найден",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Element with id='abc' not found",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -248,6 +254,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'labsCount'. Expected: Long, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -258,6 +268,24 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Element with id='abc' not found",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Конфликт",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Lost update. Try again later",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -298,6 +326,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'labsCount'. Expected: Long, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -308,6 +340,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Element with id='abc' not found",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -341,6 +377,10 @@
                             "application/json": {
                                 "schema": {
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Element with id='abc' not found",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -418,6 +458,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'minimalPoint'. Expected: Float, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -483,6 +527,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'minimalPoint'. Expected: Float, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -494,6 +542,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Already exists",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -537,6 +589,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'id'. Expected: Integer, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -548,6 +604,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Element with id='abc' not found",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -599,6 +659,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'minimalPoint'. Expected: Float, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -610,6 +674,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Element with id='abc' not found",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -621,6 +689,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Lost update. Try again later",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -672,6 +744,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'minimalPoint'. Expected: Float, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -683,6 +759,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Element with id='1' not found",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -694,6 +774,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Lost update. Try again later",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -728,6 +812,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'id'. Expected: Integer, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -739,6 +827,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Element with id='1' not found",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -750,6 +842,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Lost update. Try again later",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -768,7 +864,7 @@
                     {
                         "name": "field",
                         "in": "query",
-                        "description": "Поле для расчета суммы.",
+                        "description": "Поле для расчета суммы",
                         "required": false,
                         "schema": {
                             "type": "string",
@@ -801,6 +897,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'field'. Expected: 'minimalPoint', but got: 'abc",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -860,6 +960,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'field'. Expected: 'name' or 'discipline', but got: 'abc",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
