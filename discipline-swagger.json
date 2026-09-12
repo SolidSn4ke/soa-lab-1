@@ -53,6 +53,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'id'. Expected: Integer, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -64,6 +68,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Element with labwork-id='1' not found",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -109,6 +117,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Can not apply parameter 'abc' to field 'id'. Expected: Integer, but got: String",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
@@ -120,6 +132,10 @@
                                 "schema": {
                                     "type": "object",
                                     "$ref": "./labwork-swagger.json#/components/schemas/ErrorMsg"
+                                },
+                                "example": {
+                                    "msg": "Element with labwork-id='1' not found",
+                                    "timestamp": "2026-09-12T12:32:49.032Z"
                                 }
                             }
                         }
