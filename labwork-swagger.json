@@ -43,47 +43,22 @@
                     {
                         "name": "sort",
                         "in": "query",
-                        "description": "Список полей для сортировки в формате 'field,asc|desc'",
-                        "required": false,
-                        "style": "form",
-                        "explode": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "type": "string",
-                                "example": "name,asc"
-                            }
-                        }
-                    },
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "Фильтр по полю name",
+                        "description": "Список полей для сортировки в формате 'field,asc|desc;'",
                         "required": false,
                         "schema": {
                             "type": "string"
-                        }
+                        },
+                        "example": "name,asc;minimalPoint,desc"
                     },
                     {
-                        "name": "minimalPoint",
+                        "name": "search",
                         "in": "query",
-                        "description": "Фильтр по полю minimalPoint",
+                        "description": "Строка для построения фильтра. Для чисел разрешены фильтры: >, <, >=, <=, =; Для строк разрешены фильтры =, ~",
                         "required": false,
                         "schema": {
-                            "type": "number",
-                            "format": "float",
-                            "minimum": 0,
-                            "exclusiveMinimum": true
-                        }
-                    },
-                    {
-                        "name": "difficulty",
-                        "in": "query",
-                        "description": "Фильтр по полю difficulty",
-                        "required": false,
-                        "schema": {
-                            "$ref": "#/components/schemas/Difficulty"
-                        }
+                            "type": "string"
+                        },
+                        "example": "name=abc;minimalPoint>3"
                     }
                 ],
                 "responses": {
@@ -91,10 +66,7 @@
                         "content": {
                             "application/json": {
                                 "schema": {
-                                    "type": "array",
-                                    "items": {
-                                        "$ref": "#/components/schemas/LabWork"
-                                    }
+                                    "$ref": "#/components/schemas/PageInfo"
                                 }
                             }
                         }
@@ -245,6 +217,79 @@
             "put": {
                 "summary": "Обновить элемент коллекции",
                 "description": "Полностью заменяет существующий объект LabWork с указанным ID новыми данными. Поля id и creationDate игнорируются (генерируются автоматически).",
+                "operationId": "updateLabWork",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LabWork"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Элемент успешно обновлён",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/LabWork"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Некорректные данные запроса",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Элемент с указанным ID не найден",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "409": {
+                        "description": "Конфликт",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ErrorMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Внутренняя ошибка сервера"
+                    }
+                }
+            },
+            "patch": {
+                "summary": "Частично обновить элемент коллекции",
+                "description": "Частично изменяет существующий объект LabWork с указанным ID новыми данными. Поля id и creationDate игнорируются (генерируются автоматически).",
                 "operationId": "updateLabWork",
                 "parameters": [
                     {
@@ -480,6 +525,39 @@
     },
     "components": {
         "schemas": {
+            "PageInfo": {
+                "type": "object",
+                "properties": {
+                    "page": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 0,
+                        "default": 0
+                    },
+                    "totalPages": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1
+                    },
+                    "size": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1,
+                        "default": 20
+                    },
+                    "totalElements": {
+                        "type": "integer",
+                        "format": "int32",
+                        "minimum": 1
+                    },
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/LabWork"
+                        }
+                    }
+                }
+            },
             "LabWork": {
                 "type": "object",
                 "required": [
@@ -587,6 +665,10 @@
                 "properties": {
                     "msg": {
                         "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
                     }
                 }
             }
